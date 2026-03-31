@@ -9,8 +9,8 @@ services:
     name: nuve-store
     plan: free
     runtime: node
-    buildCommand: npm install
-    startCommand: npm run db:migrate && npm run db:seed && npm start
+    buildCommand: npm install && npm run db:migrate && npm run db:seed
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
