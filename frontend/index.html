@@ -1,1183 +1,551 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>NUVÉ | Archive</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-
+<title>NUVÉ | Digital Archive</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
-
 :root {
-
-  --bg: #fcfaf7;
-
-  --bg2: #f2efeb;
-
-  --bg3: #e8e4df;
-
-  --ink: #121110;
-
-  --ink2: #5d5a56;
-
-  --accent: #d4bc8e;
-
-  --accent2: #8b5e3c;
-
-  --white: #fff;
-
-  --border: rgba(18, 17, 16, 0.08);
-
-  --glass: rgba(252, 250, 247, 0.85);
-
-  --danger: #b03030;
-
-  --success: #2d7d4f;
-
+  --bg: #0a0a0a; /* Obsidian */
+  --bg2: #141414; /* Charcoal */
+  --ink: #e5e5e5; /* Off-white */
+  --ink2: #888;
+  --accent: #d4bc8e; /* Champagne Gold */
+  --border: rgba(255, 255, 255, 0.07);
+  --glass: rgba(10, 10, 10, 0.8);
 }
-
-
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
-
-
-body {
-
-  font-family: 'DM Mono', monospace;
-
-  background: var(--bg);
-
-  color: var(--ink);
-
+body { 
+  font-family: 'DM Mono', monospace; 
+  background: var(--bg); 
+  color: var(--ink); 
   min-height: 100vh;
-
   line-height: 1.6;
-
+  overflow-x: hidden;
 }
 
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg2); border: 1px solid var(--border); }
 
-
-button { cursor: pointer; font-family: 'DM Mono', monospace; border: none; background: none; }
-
-input, select, textarea { font-family: 'DM Mono', monospace; outline: none; }
-
-
-
-/* ── PREMIUM HEADER ── */
-
+/* ── HEADER ── */
 #site-header {
-
   position: fixed; top: 0; width: 100%; z-index: 100;
-
-  background: var(--glass); backdrop-filter: blur(12px);
-
+  background: var(--glass); backdrop-filter: blur(20px);
   display: flex; align-items: center; justify-content: space-between;
-
-  padding: 0 4rem; height: 80px; border-bottom: 1px solid var(--border);
-
+  padding: 0 5%; height: 90px; border-bottom: 1px solid var(--border);
 }
 
-
-
-.logo {
-
-  font-family: 'Cormorant Garamond', serif; font-size: 1.8rem;
-
-  letter-spacing: 0.4em; text-transform: uppercase; cursor: pointer;
-
+.logo { 
+  font-family: 'Cormorant Garamond', serif; font-size: 2rem; 
+  letter-spacing: 0.6em; text-transform: uppercase; font-weight: 300; color: var(--ink);
+  cursor: pointer;
 }
-
-
 
 .nav-links { display: flex; gap: 3rem; }
-
 .nav-btn {
-
-  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-
-  color: var(--ink2); padding: 5px 0; transition: 0.4s;
-
-  border-bottom: 1px solid transparent;
-
+  font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--ink2); padding: 5px 0; transition: 0.4s; border: none; background: none;
 }
-
-.nav-btn.active, .nav-btn:hover { color: var(--ink); border-bottom-color: var(--ink); }
-
-
+.nav-btn.active, .nav-btn:hover { color: var(--accent); cursor: pointer; }
 
 .cart-btn {
-
-  background: var(--ink); color: #fff; padding: 10px 20px;
-
-  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
-
-  display: flex; align-items: center; gap: 8px;
-
+  background: var(--ink); color: #000; padding: 12px 24px;
+  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
 }
+.cart-badge { background: var(--accent); color: #000; font-size: 0.55rem; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; }
 
-.cart-badge { background: var(--accent); color: var(--ink); font-size: 0.55rem; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+/* ── LAYOUT ── */
+.page { display: none; padding-top: 90px; }
+.page.active { display: block; animation: revealUp 1s cubic-bezier(0.16, 1, 0.3, 1); }
 
-
-
-/* ── PAGE LAYOUTS ── */
-
-.page { display: none; padding-top: 80px; }
-
-.page.active { display: block; animation: fadeIn 0.8s ease; }
-
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-
+@keyframes revealUp { 
+  from { opacity: 0; transform: translateY(30px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
 
 /* ── HERO ── */
-
 .hero {
-
-  height: calc(100vh - 80px); display: grid; grid-template-columns: 1.2fr 1fr;
-
-  align-items: center; padding: 0 4rem; gap: 4rem; max-width: 1600px; margin: 0 auto;
-
+  height: calc(100vh - 90px); display: flex; flex-direction: column;
+  justify-content: center; padding: 0 8%; position: relative;
 }
-
-.hero h1 {
-
-  font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 6.5rem);
-
-  font-weight: 300; line-height: 0.85; letter-spacing: -0.03em; margin-bottom: 2rem;
-
+.hero h1 { 
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(4rem, 10vw, 9rem); 
+  font-weight: 300; line-height: 0.85; letter-spacing: -0.04em; margin-bottom: 2rem; 
 }
-
 .hero h1 em { font-style: italic; color: var(--accent); }
-
 .hero-visual {
-
-  height: 75vh; background: var(--bg2); position: relative;
-
-  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-
+  position: absolute; right: 0; top: 10%; width: 40vw; height: 80vh;
+  background: linear-gradient(45deg, #111, #1a1a1a);
+  z-index: -1; clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+  border-left: 1px solid var(--border);
 }
-
-
 
 /* ── SHOP ── */
+.shop-wrap { max-width: 1600px; margin: 0 auto; padding: 6rem 5%; }
+.shop-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+.shop-top h2 { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300; letter-spacing: -0.02em; }
 
-.shop-wrap { max-width: 1400px; margin: 0 auto; padding: 4rem; }
+.ai-bar { background: var(--bg2); border: 1px solid var(--border); border-radius: 50px; padding: 12px 12px 12px 30px; display: flex; margin-bottom: 6rem; transition: 0.3s; }
+.ai-bar:focus-within { border-color: var(--accent); }
+.ai-bar input { flex: 1; background: none; border: none; color: #fff; font-size: 0.85rem; }
+.ai-search-btn { background: var(--ink); color: #000; padding: 12px 28px; border-radius: 30px; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; cursor: pointer; }
 
-.shop-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 6rem 3rem; }
+.card { transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; }
+.card:hover { transform: translateY(-15px); }
+.card-img { 
+  height: 520px; background: var(--bg2); display: flex; align-items: center; justify-content: center; 
+  font-size: 5rem; border: 1px solid var(--border); margin-bottom: 2rem; position: relative; overflow: hidden;
+}
+.card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; margin-bottom: 8px; font-weight: 300; letter-spacing: 0.02em; }
 
-.shop-top h2 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; }
-
-
-
-.ai-bar { background: var(--ink); border-radius: 40px; padding: 8px 8px 8px 24px; display: flex; margin-bottom: 4rem; }
-
-.ai-bar input { flex: 1; background: none; border: none; color: #fff; font-size: 0.8rem; }
-
-.ai-search-btn { background: #fff; color: var(--ink); padding: 10px 20px; border-radius: 30px; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; }
-
-
-
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 5rem 3rem; }
-
-.card { transition: 0.5s; cursor: pointer; }
-
-.card:hover { transform: translateY(-10px); }
-
-.card-img { height: 480px; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 4rem; border: 1px solid var(--border); margin-bottom: 1.5rem; }
-
-.card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 5px; }
-
-
-
-/* ── ADMIN ── */
-
-#admin { display: none; min-height: 100vh; background: #fff; }
-
-#admin.active { display: flex; flex-direction: column; }
-
-.adm-header { background: var(--ink); color: #fff; height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 3rem; }
-
-.adm-body { display: flex; flex: 1; }
-
-.adm-sidebar { width: 260px; background: #fafafa; border-right: 1px solid #eee; }
-
-.adm-nav-btn { width: 100%; text-align: left; padding: 1.2rem 2rem; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink2); border-left: 3px solid transparent; transition: 0.3s; }
-
-.adm-nav-btn.active { background: #fff; color: var(--ink); border-left-color: var(--ink); font-weight: 600; }
-
-.adm-main { flex: 1; padding: 3rem; overflow-y: auto; }
-
-
-
-.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
-
-.stat-card { background: #fff; border: 1px solid var(--border); padding: 2rem; }
-
-.stat-val { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; }
-
-
-
-table { width: 100%; border-collapse: collapse; }
-
-th { text-align: left; font-size: 0.6rem; text-transform: uppercase; padding: 1rem; border-bottom: 1px solid var(--border); color: var(--ink2); }
-
-td { padding: 1rem; font-size: 0.75rem; border-bottom: 1px solid var(--border); }
-
-
+.btn-add {
+  width: 100%; border: 1px solid var(--border); padding: 16px; color: var(--ink2); background: none;
+  font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; transition: 0.4s; cursor: pointer;
+}
+.btn-add:hover { background: var(--ink); color: #000; border-color: var(--ink); }
 
 /* ── MODALS ── */
-
-.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 200; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
 .overlay.open { display: flex; }
+.modal { background: var(--bg); width: 450px; padding: 4rem; border: 1px solid var(--border); position: relative; }
+.modal h3 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; margin-bottom: 2rem; }
 
-.modal { background: var(--bg); width: 420px; padding: 3rem; border: 1px solid var(--border); position: relative; }
+/* ── ADMIN ── */
+#admin { display: none; min-height: 100vh; background: #050505; flex-direction: column; }
+#admin.active { display: flex; }
+.adm-header { background: #000; height: 90px; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; border-bottom: 1px solid #222; }
+.adm-body { display: flex; flex: 1; }
+.adm-sidebar { width: 280px; background: #080808; border-right: 1px solid #222; }
+.adm-nav-btn { width: 100%; text-align: left; padding: 1.5rem 2.5rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--ink2); border: none; background: none; cursor: pointer; border-left: 3px solid transparent; }
+.adm-nav-btn.active { color: var(--accent); border-left-color: var(--accent); background: #111; }
+.adm-main { flex: 1; padding: 4rem; background: #050505; overflow-y: auto; }
 
-.notif { position: fixed; bottom: 2rem; right: 2rem; background: var(--ink); color: #fff; padding: 1rem 2rem; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; transform: translateY(100px); transition: 0.4s; z-index: 500; }
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 4rem; }
+.stat-card { background: #111; border: 1px solid #222; padding: 2rem; }
+.stat-val { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--accent); }
 
+table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+th { text-align: left; font-size: 0.6rem; text-transform: uppercase; padding: 1.5rem; border-bottom: 1px solid #222; color: var(--ink2); letter-spacing: 0.1em; }
+td { padding: 1.5rem; font-size: 0.75rem; border-bottom: 1px solid #222; color: var(--ink); }
+
+/* ── NOTIFS ── */
+.notif { position: fixed; bottom: 2rem; right: 2rem; background: var(--accent); color: #000; padding: 1rem 2.5rem; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; transform: translateY(100px); transition: 0.4s; z-index: 500; }
 .notif.show { transform: translateY(0); }
-
-
-
-.drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.2); z-index: 300; }
-
-.drawer-overlay.open { display: block; }
-
-.drawer { position: fixed; right: 0; top: 0; bottom: 0; width: 500px; background: #fff; z-index: 301; padding: 3rem; transform: translateX(100%); transition: 0.4s; border-left: 1px solid var(--border); }
-
-.drawer.open { transform: translateX(0); }
-
 </style>
-
 </head>
-
 <body>
 
-
-
 <div id="site">
-
   <header id="site-header">
-
     <div class="logo" onclick="nav('home')">NUVÉ</div>
-
     <nav class="nav-links">
-
       <button class="nav-btn active" onclick="nav('home')">Archive</button>
-
       <button class="nav-btn" onclick="nav('shop')">Collection</button>
-
       <button class="nav-btn" onclick="nav('orders')">Orders</button>
-
     </nav>
-
-    <div class="header-right">
-
-      <span class="user-chip" id="userChip" style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink2)"></span>
-
-      <button class="nav-btn" id="authBtn" onclick="openAuth()" style="margin:0 1rem;">Sign in</button>
-
+    <div class="header-right" style="display:flex; align-items:center;">
+      <span class="user-chip" id="userChip" style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.2em; color:var(--accent); margin-right: 1.5rem;"></span>
+      <button class="nav-btn" id="authBtn" onclick="openAuth()" style="margin-right:2rem;">Sign in</button>
       <button class="cart-btn" onclick="nav('cart')">Bag <span class="cart-badge" id="cartBadge">0</span></button>
-
     </div>
-
   </header>
-
-
 
   <div id="home" class="page active">
-
     <div class="hero">
-
-      <div>
-
-        <h1>Wear<br>the <em>future</em><br>today.</h1>
-
-        <p style="font-size:0.8rem; color:var(--ink2); max-width:400px; margin-bottom:3rem;">A curated study of minimalism and architectural silhouette. Designed for the modern observer.</p>
-
-        <button style="background:var(--ink); color:#fff; padding:18px 36px; text-transform:uppercase; letter-spacing:0.2em; font-size:0.6rem;" onclick="nav('shop')">Explore Archive</button>
-
+      <div style="z-index: 2;">
+        <h1>Define<br>the <em>unseen</em><br>structure.</h1>
+        <p style="font-size:0.75rem; color:var(--ink2); max-width:380px; margin-bottom:3rem; letter-spacing: 0.05em; line-height: 2;">A curated study of minimalist forms and architectural silhouettes. Designed for the modern observer.</p>
+        <button style="background:var(--accent); color:#000; padding:20px 40px; text-transform:uppercase; letter-spacing:0.3em; font-size:0.6rem; font-weight: 600; cursor: pointer; border: none;" onclick="nav('shop')">Explore Archive</button>
       </div>
-
       <div class="hero-visual"></div>
-
     </div>
-
   </div>
-
-
 
   <div id="shop" class="page">
-
     <div class="shop-wrap">
-
       <div class="shop-top">
-
         <h2>Collection</h2>
-
         <div class="filters">
-
-          <button class="nav-btn active" onclick="filterProd('all',this)" style="font-size:0.5rem">All</button>
-
-          <button class="nav-btn" onclick="filterProd('clothing',this)" style="font-size:0.5rem">Clothing</button>
-
-          <button class="nav-btn" onclick="filterProd('accessories',this)" style="font-size:0.5rem">Accessories</button>
-
+          <button class="nav-btn active" onclick="filterProd('all',this)" style="font-size:0.55rem; margin-left: 2rem;">All</button>
+          <button class="nav-btn" onclick="filterProd('clothing',this)" style="font-size:0.55rem; margin-left: 2rem;">Clothing</button>
+          <button class="nav-btn" onclick="filterProd('accessories',this)" style="font-size:0.55rem; margin-left: 2rem;">Accessories</button>
         </div>
-
       </div>
-
       <div class="ai-bar">
-
         <input id="aiInput" type="text" placeholder="Search by intent: 'brutalist black silhouettes'..." onkeydown="if(event.key==='Enter')aiSearch()">
-
         <button class="ai-search-btn" onclick="aiSearch()">Ask AI</button>
-
       </div>
-
-      <div id="aiResult" style="margin-bottom:2rem; font-size:0.8rem; border-left:2px solid var(--accent); padding-left:1rem; display:none;"></div>
-
+      <div id="aiResult" style="margin-bottom:2rem; font-size:0.8rem; border-left:2px solid var(--accent); padding-left:1.5rem; display:none; color: var(--ink2);"></div>
       <div class="grid" id="prodGrid"></div>
-
     </div>
-
   </div>
-
-
 
   <div id="cart" class="page">
-
-    <div class="shop-wrap" style="max-width:800px">
-
-      <h2 style="font-family:'Cormorant Garamond'; font-size:3rem; margin-bottom:2rem;">Your Bag</h2>
-
+    <div class="shop-wrap" style="max-width:900px">
+      <h2 style="font-family:'Cormorant Garamond'; font-size:4rem; margin-bottom:3rem;">Your Bag</h2>
       <div id="cartItems"></div>
-
       <div id="cartSum"></div>
-
     </div>
-
   </div>
-
-
 
   <div id="orders" class="page">
-
-    <div class="shop-wrap" style="max-width:800px">
-
-      <h2 style="font-family:'Cormorant Garamond'; font-size:3rem; margin-bottom:2rem;">Orders</h2>
-
+    <div class="shop-wrap" style="max-width:900px">
+      <h2 style="font-family:'Cormorant Garamond'; font-size:4rem; margin-bottom:3rem;">Orders</h2>
       <div id="ordersList"></div>
-
     </div>
-
   </div>
-
 </div>
-
-
 
 <div id="admin">
-
   <header class="adm-header">
-
     <div class="logo">NUVÉ ADMIN</div>
-
     <div>
-
-      <span id="adminName" style="font-size:0.7rem; margin-right:1rem;"></span>
-
-      <button onclick="logout()" style="color:#fff; border:1px solid #444; padding:5px 10px; font-size:0.6rem;">Sign Out</button>
-
+      <span id="adminName" style="font-size:0.7rem; margin-right:1rem; color: var(--accent);"></span>
+      <button onclick="logout()" style="color:#fff; border:1px solid #333; padding:8px 15px; font-size:0.6rem; letter-spacing: 0.1em; background: none; cursor: pointer;">Sign Out</button>
     </div>
-
   </header>
-
   <div class="adm-body">
-
     <nav class="adm-sidebar">
-
       <button class="adm-nav-btn active" onclick="admNav('overview')">Overview</button>
-
       <button class="adm-nav-btn" onclick="admNav('orders-admin')">Orders</button>
-
       <button class="adm-nav-btn" onclick="admNav('products-admin')">Products</button>
-
       <button class="adm-nav-btn" onclick="admNav('users-admin')">Customers</button>
-
     </nav>
-
     <main class="adm-main">
-
       <div id="overview" class="adm-section">
-
         <div class="stat-grid" id="statGrid"></div>
-
-        <h3>Recent Orders</h3>
-
+        <h3 style="font-family: 'Cormorant Garamond'; font-size: 2rem; margin-bottom: 2rem;">Recent Orders</h3>
         <table>
-
           <thead><tr><th>ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th><th></th></tr></thead>
-
           <tbody id="recentOrdersTbl"></tbody>
-
         </table>
-
       </div>
-
       <div id="orders-admin" class="adm-section" style="display:none">
-
         <h3>All Orders</h3>
-
-        <table style="margin-top:2rem;">
-
-          <thead><tr><th>ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Payment</th><th>Actions</th></tr></thead>
-
-          <tbody id="adminOrdersTbl"></tbody>
-
-        </table>
-
-      </div>
-
-      <div id="products-admin" class="adm-section" style="display:none">
-
-        <div style="background:#f9f9f9; padding:2rem; margin-bottom:2rem; border:1px solid #eee;">
-
-          <h4 id="prodFormTitle">Add Product</h4>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem;">
-
-            <input id="pf-name" placeholder="Name" style="padding:10px; border:1px solid #ddd;">
-
-            <input id="pf-price" placeholder="Price" type="number" style="padding:10px; border:1px solid #ddd;">
-
-            <select id="pf-cat" style="padding:10px; border:1px solid #ddd;"><option>clothing</option><option>accessories</option></select>
-
-            <input id="pf-stock" placeholder="Stock" type="number" style="padding:10px; border:1px solid #ddd;">
-
-            <input id="pf-emoji" placeholder="Emoji (e.g. 🧥)" style="padding:10px; border:1px solid #ddd;">
-
-            <textarea id="pf-desc" placeholder="Description" style="padding:10px; border:1px solid #ddd; grid-column:span 2;"></textarea>
-
-          </div>
-
-          <button onclick="submitProduct()" style="background:#000; color:#fff; padding:10px 20px; margin-top:1rem; font-size:0.6rem;">Save Product</button>
-
-          <button id="cancelEditBtn" onclick="resetProductForm()" style="display:none; margin-left:1rem; font-size:0.6rem;">Cancel</button>
-
-        </div>
-
         <table>
-
+          <thead><tr><th>ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Payment</th><th>Actions</th></tr></thead>
+          <tbody id="adminOrdersTbl"></tbody>
+        </table>
+      </div>
+      <div id="products-admin" class="adm-section" style="display:none">
+        <div style="background:#111; padding:3rem; margin-bottom:3rem; border:1px solid #222;">
+          <h4 id="prodFormTitle" style="margin-bottom:2rem; font-family: 'Cormorant Garamond'; font-size: 1.5rem;">Add Product</h4>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+            <input id="pf-name" placeholder="Name" style="padding:15px; background: #000; border: 1px solid #333; color: #fff;">
+            <input id="pf-price" placeholder="Price" type="number" style="padding:15px; background: #000; border: 1px solid #333; color: #fff;">
+            <select id="pf-cat" style="padding:15px; background: #000; border: 1px solid #333; color: #fff;"><option>clothing</option><option>accessories</option></select>
+            <input id="pf-stock" placeholder="Stock" type="number" style="padding:15px; background: #000; border: 1px solid #333; color: #fff;">
+            <input id="pf-emoji" placeholder="Emoji" style="padding:15px; background: #000; border: 1px solid #333; color: #fff;">
+            <textarea id="pf-desc" placeholder="Description" style="padding:15px; background: #000; border: 1px solid #333; color: #fff; grid-column:span 2; height: 100px;"></textarea>
+          </div>
+          <button onclick="submitProduct()" style="background:var(--accent); color:#000; padding:15px 30px; margin-top:2rem; font-size:0.65rem; text-transform: uppercase; font-weight: 600; border: none; cursor: pointer;">Save Product</button>
+          <button id="cancelEditBtn" onclick="resetProductForm()" style="display:none; margin-left:1.5rem; color: #888; font-size: 0.6rem; cursor: pointer; border: none; background: none;">Cancel</button>
+        </div>
+        <table>
           <thead><tr><th>Icon</th><th>Name</th><th>Stock</th><th>Price</th><th>Actions</th></tr></thead>
-
           <tbody id="adminProdTbl"></tbody>
-
         </table>
-
       </div>
-
       <div id="users-admin" class="adm-section" style="display:none">
-
         <h3>Customers</h3>
-
-        <table style="margin-top:2rem;">
-
+        <table>
           <thead><tr><th>Name</th><th>Email</th><th>Orders</th><th>Joined</th></tr></thead>
-
           <tbody id="usersTbl"></tbody>
-
         </table>
-
       </div>
-
     </main>
-
   </div>
-
 </div>
-
-
-
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
-
-<div class="drawer" id="orderDrawer">
-
-  <button style="float:right" onclick="closeDrawer()">✕</button>
-
-  <h3 style="font-family:'Cormorant Garamond'; font-size:2rem; margin-bottom:1.5rem;">Manage Order</h3>
-
-  <div id="drawerContent"></div>
-
-</div>
-
-
 
 <div class="overlay" id="authOverlay">
-
   <div class="modal">
-
-    <button style="float:right" onclick="closeAuth()">✕</button>
-
-    <h3 id="modalTitle" style="font-family:'Cormorant Garamond'; font-size:2rem; margin-bottom:2rem;">Sign In</h3>
-
-    <div id="authErr" style="color:red; font-size:0.7rem; margin-bottom:1rem; display:none;"></div>
-
-    <input id="aEmail" placeholder="Email" style="width:100%; padding:12px; border:1px solid #ddd; margin-bottom:1rem;">
-
-    <input id="aPass" type="password" placeholder="Password" style="width:100%; padding:12px; border:1px solid #ddd; margin-bottom:1rem;">
-
-    <div id="nameGroup" style="display:none;"><input id="aName" placeholder="Full Name" style="width:100%; padding:12px; border:1px solid #ddd; margin-bottom:1rem;"></div>
-
-    <button onclick="submitAuth()" style="background:#000; color:#fff; width:100%; padding:15px; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase;">Continue</button>
-
-    <p style="font-size:0.6rem; text-align:center; margin-top:1.5rem;">
-
-      <span id="switchText">No account?</span> <button onclick="toggleMode()" style="text-decoration:underline">Join NUVÉ</button>
-
+    <button style="position: absolute; right: 2rem; top: 2rem; font-size: 1.5rem; color: #555; background: none; border: none; cursor: pointer;" onclick="closeAuth()">✕</button>
+    <h3 id="modalTitle">Archive Login</h3>
+    <div id="authErr" style="color:#ff5f5f; font-size:0.7rem; margin-bottom:1rem; display:none;"></div>
+    <input id="aEmail" placeholder="EMAIL" style="width:100%; padding:15px; background:var(--bg2); border:1px solid var(--border); color: #fff; margin-bottom:1rem;">
+    <input id="aPass" type="password" placeholder="PASSWORD" style="width:100%; padding:15px; background:var(--bg2); border:1px solid var(--border); color: #fff; margin-bottom:1.5rem;">
+    <div id="nameGroup" style="display:none;"><input id="aName" placeholder="FULL NAME" style="width:100%; padding:15px; background:var(--bg2); border:1px solid var(--border); color: #fff; margin-bottom:1rem;"></div>
+    <button onclick="submitAuth()" style="background:var(--accent); color:#000; width:100%; padding:18px; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; font-weight: 600; border: none; cursor: pointer;">Enter Archive</button>
+    <p style="font-size:0.55rem; text-align:center; margin-top:2rem; letter-spacing: 0.1em; color: var(--ink2);">
+      <span id="switchText">NOT REGISTERED?</span> <button onclick="toggleMode()" style="text-decoration:underline; color: var(--ink); border: none; background: none; cursor: pointer;">JOIN NUVÉ</button>
     </p>
-
   </div>
-
 </div>
-
-
 
 <div class="notif" id="notif"></div>
 
-
-
 <script>
-
-// ── CONFIG & STATE ──
-
 const API = '';
-
 let token = localStorage.getItem('nuve_token');
-
 let me = JSON.parse(localStorage.getItem('nuve_me') || 'null');
-
 let cart = JSON.parse(localStorage.getItem('nuve_cart') || '[]');
-
 let authMode = 'signin';
-
 let editingProductId = null;
-
 let allProducts = [];
 
-
-
-// ── UTILS ──
-
 async function api(path, opts={}) {
-
   const headers = { 'Content-Type':'application/json', ...(token ? { Authorization:`Bearer ${token}` } : {}) };
-
   const r = await fetch(`/api${path}`, { headers, ...opts, body: opts.body ? JSON.stringify(opts.body) : undefined });
-
   const data = await r.json();
-
   if (!r.ok) throw new Error(data.error || r.statusText);
-
   return data;
-
 }
-
-
 
 function toast(msg) {
-
   const n = document.getElementById('notif');
-
   n.textContent = msg; n.classList.add('show');
-
   setTimeout(() => n.classList.remove('show'), 2800);
-
 }
-
-
 
 function fmt(n) { return '$'+parseFloat(n).toFixed(2); }
-
 function fmtDate(d) { return new Date(d).toLocaleDateString(); }
 
-
-
-// ── SESSION ──
-
 function updateHeader() {
-
   const chip = document.getElementById('userChip');
-
   const btn = document.getElementById('authBtn');
-
   if (me) {
-
-    chip.textContent = me.name;
-
+    chip.textContent = me.name.toUpperCase();
     btn.textContent = 'Sign out';
-
     btn.onclick = logout;
-
   } else {
-
     chip.textContent = '';
-
     btn.textContent = 'Sign in';
-
     btn.onclick = openAuth;
-
   }
-
 }
 
-
-
-function logout() {
-
-  localStorage.clear();
-
-  location.reload();
-
-}
-
-
-
-// ── NAVIGATION ──
+function logout() { localStorage.clear(); location.reload(); }
 
 function nav(id) {
-
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-
   document.getElementById(id).classList.add('active');
-
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
   if(id === 'shop') loadProducts();
-
   if(id === 'cart') renderCart();
-
   if(id === 'orders') loadMyOrders();
-
 }
-
-
 
 function admNav(id) {
-
   document.querySelectorAll('.adm-section').forEach(s => s.style.display = 'none');
-
   document.getElementById(id).style.display = 'block';
-
   document.querySelectorAll('.adm-nav-btn').forEach(b => b.classList.remove('active'));
-
   event.target.classList.add('active');
-
 }
-
-
-
-// ── PRODUCTS ──
 
 async function loadProducts(cat = 'all') {
-
   try {
-
     const data = await api(`/products${cat !== 'all' ? '?category='+cat : ''}`);
-
     allProducts = data.products;
-
     renderProducts(allProducts);
-
-  } catch(e) { toast('Error loading collection'); }
-
+  } catch(e) { console.error(e); }
 }
-
-
 
 function renderProducts(list) {
-
   const grid = document.getElementById('prodGrid');
-
   grid.innerHTML = list.map(p => `
-
     <div class="card">
-
       <div class="card-img">${p.emoji || '📦'}</div>
-
       <div class="card-name">${p.name}</div>
-
-      <div style="font-size:0.8rem; color:var(--ink2); margin-bottom:1rem;">${fmt(p.price)}</div>
-
-      <button onclick="addCart('${p.id}','${p.name}',${p.price},'${p.emoji}')" style="width:100%; border:1px solid var(--border); padding:10px; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.1em;">Add to Bag</button>
-
+      <div style="font-size:0.9rem; color:var(--accent); margin-bottom:1.5rem; letter-spacing: 0.05em;">${fmt(p.price)}</div>
+      <button class="btn-add" onclick="addCart('${p.id}','${p.name}',${p.price},'${p.emoji}')">Add to Bag</button>
     </div>
-
   `).join('');
-
 }
-
-
 
 function filterProd(cat, btn) {
-
   document.querySelectorAll('.filters .nav-btn').forEach(b => b.classList.remove('active'));
-
   btn.classList.add('active');
-
   loadProducts(cat);
-
 }
-
-
-
-// ── AI SEARCH ──
 
 async function aiSearch() {
-
   const q = document.getElementById('aiInput').value;
-
   if(!q) return;
-
   toast('AI is analyzing...');
-
   try {
-
     const data = await api('/search/ai', { method:'POST', body:{ query:q } });
-
     const resEl = document.getElementById('aiResult');
-
     resEl.textContent = data.message;
-
     resEl.style.display = 'block';
-
     if(data.products) renderProducts(data.products);
-
   } catch(e) { toast('AI Search error'); }
-
 }
-
-
-
-// ── CART ──
 
 function addCart(id, name, price, emoji) {
-
   const item = cart.find(i => i.id === id);
-
   if(item) item.qty++;
-
   else cart.push({id, name, price, emoji, qty:1});
-
   saveCart();
-
-  toast(`${name} added to bag`);
-
+  toast(`${name.toUpperCase()} ADDED`);
 }
-
-
 
 function saveCart() {
-
   localStorage.setItem('nuve_cart', JSON.stringify(cart));
-
   document.getElementById('cartBadge').textContent = cart.reduce((a,b)=>a+b.qty,0);
-
 }
-
-
 
 function renderCart() {
-
   const el = document.getElementById('cartItems');
-
   const sumEl = document.getElementById('cartSum');
-
-  if(!cart.length) { el.innerHTML = '<p style="padding:4rem 0; opacity:0.5;">Your bag is empty.</p>'; sumEl.innerHTML=''; return; }
-
+  if(!cart.length) { el.innerHTML = '<p style="padding:4rem 0; opacity:0.3; text-transform: uppercase; letter-spacing: 0.2em;">Empty Bag</p>'; sumEl.innerHTML=''; return; }
   el.innerHTML = cart.map(i => `
-
-    <div style="display:flex; align-items:center; gap:2rem; padding:1.5rem 0; border-bottom:1px solid var(--border);">
-
-      <div style="font-size:2rem; background:var(--bg2); padding:10px;">${i.emoji}</div>
-
+    <div style="display:flex; align-items:center; gap:2rem; padding:2rem 0; border-bottom:1px solid var(--border);">
+      <div style="font-size:2.5rem; background:var(--bg2); width: 80px; height: 80px; display:flex; align-items:center; justify-content:center;">${i.emoji}</div>
       <div style="flex:1">
-
-        <div style="font-family:'Cormorant Garamond'; font-size:1.4rem;">${i.name}</div>
-
-        <div style="font-size:0.7rem; color:var(--ink2);">${fmt(i.price)}</div>
-
+        <div style="font-family:'Cormorant Garamond'; font-size:1.6rem; font-weight: 300;">${i.name}</div>
+        <div style="font-size:0.8rem; color:var(--accent);">${fmt(i.price)}</div>
       </div>
-
-      <div style="font-size:0.8rem;">Qty: ${i.qty}</div>
-
-      <button onclick="removeCart('${i.id}')" style="font-size:0.6rem; text-decoration:underline;">Remove</button>
-
+      <div style="font-size:0.7rem; opacity: 0.6;">QTY ${i.qty}</div>
+      <button onclick="removeCart('${i.id}')" style="font-size:0.5rem; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid var(--ink); background: none; color: #fff; cursor: pointer;">Remove</button>
     </div>
-
   `).join('');
-
   const total = cart.reduce((a,b)=>a+(b.price*b.qty),0);
-
   sumEl.innerHTML = `
-
-    <div style="display:flex; justify-content:space-between; align-items:center; padding:2rem; background:var(--bg2); margin-top:2rem;">
-
-      <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em;">Total: <span style="font-size:1.5rem; display:block; font-family:'Cormorant Garamond'">${fmt(total)}</span></div>
-
-      <button onclick="checkout()" style="background:#000; color:#fff; padding:15px 30px; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.2em;">Checkout</button>
-
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:3rem; background:var(--bg2); margin-top:3rem;">
+      <div><p style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.2em; opacity: 0.5; margin-bottom: 0.5rem;">Subtotal</p><p style="font-size:2.5rem; font-family:'Cormorant Garamond'; color: var(--accent);">${fmt(total)}</p></div>
+      <button onclick="checkout()" style="background:var(--ink); color:#000; padding:20px 50px; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.3em; font-weight: 600; border: none; cursor: pointer;">Checkout</button>
     </div>`;
-
 }
 
-
-
-function removeCart(id) {
-
-  cart = cart.filter(i => i.id !== id);
-
-  saveCart(); renderCart();
-
-}
-
-
+function removeCart(id) { cart = cart.filter(i => i.id !== id); saveCart(); renderCart(); }
 
 async function checkout() {
-
   if(!me) return openAuth();
-
   try {
-
     const items = cart.map(i => ({ productId:i.id, quantity:i.qty }));
-
     await api('/orders', { method:'POST', body:{ items } });
-
     cart = []; saveCart(); nav('orders');
-
     toast('Order confirmed');
-
   } catch(e) { toast(e.message); }
-
 }
-
-
-
-// ── MY ORDERS ──
 
 async function loadMyOrders() {
-
   if(!me) { document.getElementById('ordersList').innerHTML = '<p>Sign in to view orders.</p>'; return; }
-
   const data = await api('/orders');
-
   document.getElementById('ordersList').innerHTML = data.orders.map(o => `
-
     <div style="padding:1.5rem; border:1px solid var(--border); margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
-
       <div>
-
         <div style="font-size:0.6rem; color:var(--ink2);">#${o.id.toUpperCase()}</div>
-
-        <div style="font-family:'Cormorant Garamond'; font-size:1.2rem;">${fmt(o.total)}</div>
-
+        <div style="font-family:'Cormorant Garamond'; font-size:1.2rem; color: var(--accent);">${fmt(o.total)}</div>
       </div>
-
       <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.1em; background:var(--bg2); padding:5px 10px;">${o.status}</div>
-
     </div>
-
   `).join('');
-
 }
-
-
-
-// ── AUTH ──
 
 function openAuth() { document.getElementById('authOverlay').classList.add('open'); }
-
 function closeAuth() { document.getElementById('authOverlay').classList.remove('open'); }
-
 function toggleMode() {
-
   authMode = authMode === 'signin' ? 'register' : 'signin';
-
-  document.getElementById('modalTitle').textContent = authMode === 'signin' ? 'Sign In' : 'Join NUVÉ';
-
+  document.getElementById('modalTitle').textContent = authMode === 'signin' ? 'Archive Login' : 'Join NUVÉ';
   document.getElementById('nameGroup').style.display = authMode === 'register' ? 'block' : 'none';
-
 }
-
-
 
 async function submitAuth() {
-
   const email = document.getElementById('aEmail').value;
-
   const password = document.getElementById('aPass').value;
-
   const name = document.getElementById('aName').value;
-
   try {
-
     const data = await api(`/auth/${authMode}`, { method:'POST', body: { email, password, name } });
-
     token = data.token; me = data.user;
-
     localStorage.setItem('nuve_token', token);
-
     localStorage.setItem('nuve_me', JSON.stringify(me));
-
     closeAuth(); updateHeader();
-
     if(me.role === 'admin') showAdmin();
-
-    else toast(`Welcome, ${me.name}`);
-
+    else { toast(`Welcome back`); location.reload(); }
   } catch(e) {
-
     const err = document.getElementById('authErr');
-
     err.textContent = e.message; err.style.display = 'block';
-
   }
-
 }
-
-
-
-// ── ADMIN FUNCTIONS ──
 
 function showAdmin() {
-
   document.getElementById('site').style.display = 'none';
-
   document.getElementById('admin').classList.add('active');
-
   document.getElementById('adminName').textContent = me.name;
-
   loadStats(); loadAdminOrders(); loadAdminProducts(); loadUsers();
-
 }
-
-
 
 async function loadStats() {
-
   const d = await api('/orders/stats');
-
   const s = d.summary;
-
   document.getElementById('statGrid').innerHTML = `
-
     <div class="stat-card"><div>Revenue</div><div class="stat-val">${fmt(s.total_revenue || 0)}</div></div>
-
     <div class="stat-card"><div>Orders</div><div class="stat-val">${s.total_orders}</div></div>
-
     <div class="stat-card"><div>Pending</div><div class="stat-val">${s.pending_orders}</div></div>
-
     <div class="stat-card"><div>Growth</div><div class="stat-val">${d.recent_orders.length}</div></div>
-
   `;
-
   document.getElementById('recentOrdersTbl').innerHTML = d.recent_orders.slice(0,5).map(o => `
-
-    <tr><td>#${o.id.slice(0,5)}</td><td>${o.name}</td><td>${fmt(o.total)}</td><td>${o.status}</td><td>${fmtDate(o.created_at)}</td><td><button onclick="openDrawer('${o.id}')">View</button></td></tr>
-
+    <tr><td>#${o.id.slice(0,5)}</td><td>${o.name}</td><td>${fmt(o.total)}</td><td>${o.status}</td><td>${fmtDate(o.created_at)}</td></tr>
   `).join('');
-
 }
-
-
 
 async function loadAdminOrders() {
-
   const data = await api('/orders?limit=50');
-
   document.getElementById('adminOrdersTbl').innerHTML = data.orders.map(o => `
-
-    <tr><td>#${o.id.slice(0,8)}</td><td>${o.customer_name}</td><td>${fmt(o.total)}</td><td>${o.status}</td><td>${o.payment_status}</td><td><button class="act-btn" onclick="openDrawer('${o.id}')">Manage</button></td></tr>
-
+    <tr><td>#${o.id.slice(0,8)}</td><td>${o.customer_name}</td><td>${fmt(o.total)}</td><td>${o.status}</td><td>${o.payment_status}</td></tr>
   `).join('');
-
 }
-
-
 
 async function loadAdminProducts() {
-
   const rows = await api('/products/all');
-
   document.getElementById('adminProdTbl').innerHTML = rows.map(p => `
-
-    <tr><td>${p.emoji}</td><td>${p.name}</td><td>${p.stock}</td><td>${fmt(p.price)}</td><td><button class="act-btn" onclick="editProduct(${JSON.stringify(p).replace(/"/g,'&quot;')})">Edit</button></td></tr>
-
+    <tr><td>${p.emoji}</td><td>${p.name}</td><td>${p.stock}</td><td>${fmt(p.price)}</td><td><button style="color:var(--accent); cursor:pointer; background:none; border:none;" onclick="editProduct(${JSON.stringify(p).replace(/"/g,'&quot;')})">Edit</button></td></tr>
   `).join('');
-
 }
-
-
 
 async function submitProduct() {
-
   const body = {
-
     name: document.getElementById('pf-name').value,
-
     price: parseFloat(document.getElementById('pf-price').value),
-
     category: document.getElementById('pf-cat').value,
-
     stock: parseInt(document.getElementById('pf-stock').value),
-
     emoji: document.getElementById('pf-emoji').value,
-
     description: document.getElementById('pf-desc').value
-
   };
-
   try {
-
     if(editingProductId) await api(`/products/${editingProductId}`, {method:'PATCH', body});
-
     else await api('/products', {method:'POST', body});
-
     resetProductForm(); loadAdminProducts(); toast('Product Updated');
-
   } catch(e) { toast(e.message); }
-
 }
-
-
 
 function editProduct(p) {
-
   editingProductId = p.id;
-
   document.getElementById('pf-name').value = p.name;
-
   document.getElementById('pf-price').value = p.price;
-
   document.getElementById('pf-stock').value = p.stock;
-
   document.getElementById('pf-emoji').value = p.emoji;
-
   document.getElementById('pf-desc').value = p.description;
-
   document.getElementById('prodFormTitle').textContent = 'Edit Product';
-
   document.getElementById('cancelEditBtn').style.display = 'inline';
-
 }
-
-
 
 function resetProductForm() {
-
   editingProductId = null;
-
   document.querySelectorAll('#products-admin input, #products-admin textarea').forEach(i => i.value = '');
-
   document.getElementById('prodFormTitle').textContent = 'Add Product';
-
   document.getElementById('cancelEditBtn').style.display = 'none';
-
 }
-
-
 
 async function loadUsers() {
-
   const rows = await api('/orders/admin/users');
-
   document.getElementById('usersTbl').innerHTML = rows.map(u => `
-
     <tr><td>${u.name}</td><td>${u.email}</td><td>${u.order_count}</td><td>${fmtDate(u.created_at)}</td></tr>
-
   `).join('');
-
 }
-
-
-
-async function openDrawer(id) {
-
-  document.getElementById('drawerOverlay').classList.add('open');
-
-  document.getElementById('orderDrawer').classList.add('open');
-
-  const o = await api(`/orders/${id}`);
-
-  document.getElementById('drawerContent').innerHTML = `
-
-    <div style="font-size:0.8rem; line-height:2;">
-
-      <p><b>Customer:</b> ${o.customer_name}</p>
-
-      <p><b>Email:</b> ${o.customer_email}</p>
-
-      <p><b>Total:</b> ${fmt(o.total)}</p>
-
-      <p><b>Status:</b> ${o.status}</p>
-
-    </div>
-
-    <hr style="margin:2rem 0; border:none; border-top:1px solid #eee;">
-
-    <button onclick="updateStatus('${o.id}', 'delivered')" style="background:#000; color:#fff; width:100%; padding:15px; font-size:0.6rem;">Mark as Delivered</button>
-
-  `;
-
-}
-
-
-
-async function updateStatus(id, status) {
-
-  try {
-
-    await api(`/orders/${id}`, { method:'PATCH', body: { status } });
-
-    closeDrawer(); loadAdminOrders(); toast('Status Updated');
-
-  } catch(e) { toast(e.message); }
-
-}
-
-
-
-function closeDrawer() {
-
-  document.getElementById('drawerOverlay').classList.remove('open');
-
-  document.getElementById('orderDrawer').classList.remove('open');
-
-}
-
-
-
-// ── INIT ──
 
 updateHeader();
-
 saveCart();
-
 if(me && me.role === 'admin') showAdmin();
-
 else loadProducts();
-
-
-
 </script>
-
 </body>
-
-</html> 
+</html>
