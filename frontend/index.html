@@ -7,107 +7,68 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0d0d0d; /* Deep Obsidian */
-  --bg2: #1a1a1a; /* Dark Ash */
-  --ink: #e5e5e5; /* Off-white text */
+  --bg: #0d0d0d; /* Obsidian */
+  --bg2: #1a1a1a; /* Ash */
+  --ink: #e5e5e5; 
   --ink2: #888888;
-  --accent: #d4bc8e; /* Muted Champagne Gold */
+  --accent: #d4bc8e; /* Champagne Gold */
   --border: rgba(255, 255, 255, 0.05);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--ink); overflow-x: hidden; line-height: 1.6; }
 
-body { 
-  font-family: 'DM Mono', monospace; 
-  background: var(--bg); 
-  color: var(--ink); 
-  overflow-x: hidden;
-}
-
-/* ── CINEMATIC NAVIGATION ── */
+/* ── ARCHITECTURAL HEADER ── */
 #site-header {
   position: fixed; top: 0; width: 100%; z-index: 1000;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 4%; height: 100px; mix-blend-mode: difference;
+  padding: 0 5%; height: 100px; background: rgba(13, 13, 13, 0.9); backdrop-filter: blur(20px);
 }
+.logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; letter-spacing: 0.6em; text-transform: uppercase; font-weight: 300; cursor: pointer; }
+.nav-links { display: flex; gap: 40px; }
+.nav-btn { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink); opacity: 0.5; transition: 0.4s; border: none; background: none; cursor: pointer; }
+.nav-btn:hover, .nav-btn.active { opacity: 1; color: var(--accent); }
 
-.logo { 
-  font-family: 'Cormorant Garamond', serif; font-size: 2rem; 
-  letter-spacing: 0.6em; text-transform: uppercase; font-weight: 300;
-}
-
-.nav-links { display: flex; gap: 50px; }
-.nav-btn {
-  font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase;
-  color: var(--ink); opacity: 0.5; border: none; background: none; transition: 0.5s;
-}
-.nav-btn:hover, .nav-btn.active { opacity: 1; letter-spacing: 0.5em; }
-
-/* ── BRUTALIST HERO ── */
-.hero {
-  height: 100vh; display: flex; flex-direction: column;
-  justify-content: center; padding: 0 8%; position: relative;
-}
-.hero h1 { 
-  font-family: 'Cormorant Garamond', serif; font-size: clamp(4rem, 12vw, 10rem); 
-  font-weight: 300; line-height: 0.8; letter-spacing: -0.05em;
-  margin-left: -5px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-}
+/* ── HERO ── */
+.hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 8%; }
+.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(4rem, 12vw, 10rem); font-weight: 300; line-height: 0.8; letter-spacing: -0.05em; animation: revealUp 1.5s ease; }
 .hero h1 em { font-style: italic; color: var(--accent); }
+.hero-p { margin-top: 40px; font-size: 0.75rem; color: var(--ink2); max-width: 350px; line-height: 2; letter-spacing: 0.05em; }
 
-.hero-sub {
-  margin-top: 40px; display: flex; justify-content: space-between; align-items: flex-end;
-}
-.hero-p { font-size: 0.75rem; color: var(--ink2); max-width: 300px; line-height: 2; letter-spacing: 0.05em; }
-
-.hero-img-box {
-  position: absolute; right: 8%; top: 50%; transform: translateY(-50%);
-  width: 30vw; height: 60vh; background: var(--bg2);
-  border: 1px solid var(--border); overflow: hidden;
-  z-index: -1; animation: heroImageReveal 2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* ── THE COLLECTION GRID ── */
+/* ── GALLERY GRID ── */
 .shop-wrap { padding: 150px 8%; }
-.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 100px 50px; }
-.card { position: relative; transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-
-.card-img { 
-  height: 600px; background: var(--bg2); display: flex; 
-  align-items: center; justify-content: center; font-size: 6rem;
-  border: 1px solid var(--border); filter: grayscale(100%);
-  transition: 0.8s;
-}
-.card:hover .card-img { filter: grayscale(0%); transform: scale(0.98); border-color: var(--accent); }
-
-.card-info { margin-top: 25px; display: flex; justify-content: space-between; }
-.card-name { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 100px 50px; }
+.card { transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.card-img { height: 550px; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 6rem; border: 1px solid var(--border); transition: 0.8s; }
+.card:hover .card-img { border-color: var(--accent); transform: translateY(-10px); }
+.card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; margin-top: 20px; }
 .card-price { font-size: 0.8rem; color: var(--accent); margin-top: 5px; }
+.add-btn { margin-top: 20px; padding: 15px 0; width: 100%; border: 1px solid var(--border); color: var(--ink2); text-transform: uppercase; font-size: 0.6rem; letter-spacing: 0.2em; transition: 0.3s; }
+.add-btn:hover { background: var(--ink); color: var(--bg); }
 
-.add-btn {
-  margin-top: 20px; padding: 15px 0; width: 100%; border-top: 1px solid var(--border);
-  font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink2);
-}
-.add-btn:hover { color: var(--ink); border-color: var(--ink); }
+/* ── ADMIN MODAL & DRAWER ── */
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+.overlay.open { display: flex; }
+.modal { background: var(--bg2); width: 450px; padding: 4rem; border: 1px solid var(--border); color: var(--ink); }
+.notif { position: fixed; bottom: 2rem; right: 2rem; background: var(--accent); color: var(--bg); padding: 1rem 2rem; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.2em; transform: translateY(100px); transition: 0.4s; z-index: 3000; }
+.notif.show { transform: translateY(0); }
 
-/* ── ADMIN/FORMS ── */
-.page { display: none; }
-.page.active { display: block; }
-#admin { background: #000; min-height: 100vh; padding: 50px; }
-.stat-card { border: 1px solid #222; padding: 30px; background: #0a0a0a; }
-.stat-val { font-size: 3rem; color: var(--accent); }
+/* ── ADMIN DASHBOARD ── */
+#admin { display: none; min-height: 100vh; background: #000; flex-direction: column; }
+#admin.active { display: flex; }
+.adm-header { padding: 0 5%; height: 80px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #222; }
+.adm-body { display: flex; flex: 1; }
+.adm-sidebar { width: 260px; border-right: 1px solid #222; padding-top: 2rem; }
+.adm-nav-btn { width: 100%; text-align: left; padding: 1.2rem 2rem; font-size: 0.6rem; color: #666; text-transform: uppercase; letter-spacing: 0.2em; }
+.adm-nav-btn.active { color: var(--accent); border-left: 2px solid var(--accent); }
+.adm-main { flex: 1; padding: 4rem; overflow-y: auto; }
 
 /* ── ANIMATIONS ── */
-@keyframes heroImageReveal {
-  from { height: 0; opacity: 0; }
-  to { height: 60vh; opacity: 1; }
-}
+@keyframes revealUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
 
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 1s ease; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-.page.active { animation: fadeIn 1.5s ease; }
-
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-thumb { background: var(--accent); }
 </style>
 </head>
 <body>
@@ -117,24 +78,21 @@ body {
     <div class="logo" onclick="nav('home')">NUVÉ</div>
     <nav class="nav-links">
       <button class="nav-btn active" onclick="nav('home')">Archive</button>
-      <button class="nav-btn" onclick="nav('shop')">Shop</button>
+      <button class="nav-btn" onclick="nav('shop')">Collection</button>
       <button class="nav-btn" onclick="nav('orders')">Orders</button>
     </nav>
-    <div style="display:flex; gap:20px; align-items:center;">
-      <span id="userChip" style="font-size:0.6rem; letter-spacing:0.2em;"></span>
-      <button id="authBtn" class="nav-btn">Connect</button>
-      <button class="nav-btn" onclick="nav('cart')" style="opacity:1;">Bag (<span id="cartBadge">0</span>)</button>
+    <div style="display:flex; align-items:center; gap:20px;">
+      <span id="userChip" style="font-size:0.6rem; letter-spacing:0.1em;"></span>
+      <button class="nav-btn" id="authBtn" onclick="openAuth()">Login</button>
+      <button class="nav-btn" onclick="nav('cart')" style="opacity:1;">Bag [<span id="cartBadge">0</span>]</button>
     </div>
   </header>
 
   <div id="home" class="page active">
     <div class="hero">
-      <h1>Wear<br>The <em>Future</em></h1>
-      <div class="hero-sub">
-        <p class="hero-p">Minimalist structures. Modular thinking. The 2026 Archive is now open for public observation.</p>
-        <button class="nav-btn" style="font-size:0.8rem; opacity:1;" onclick="nav('shop')">Enter Gallery —></button>
-      </div>
-      <div class="hero-img-box"></div>
+      <h1>The<br>New <em>Standard</em></h1>
+      <p class="hero-p">Architectural silhouettes for the modern observer. A modular study of structure and silence.</p>
+      <button class="add-btn" style="width:200px; margin-top:40px; color:#fff;" onclick="nav('shop')">Enter Archive</button>
     </div>
   </div>
 
@@ -146,25 +104,68 @@ body {
 
   <div id="cart" class="page">
     <div class="shop-wrap" style="max-width:800px">
-      <h2 style="font-family:'Cormorant Garamond'; font-size:5rem; margin-bottom:50px;">The Bag</h2>
-      <div id="cartItems"></div>
+      <h2 style="font-family:'Cormorant Garamond'; font-size:4rem;">The Bag</h2>
+      <div id="cartItems" style="margin-top:40px;"></div>
       <div id="cartSum"></div>
     </div>
   </div>
+
+  <div id="orders" class="page">
+    <div class="shop-wrap" style="max-width:800px">
+      <h2 style="font-family:'Cormorant Garamond'; font-size:4rem;">Orders</h2>
+      <div id="ordersList" style="margin-top:40px;"></div>
+    </div>
+  </div>
 </div>
+
+<div id="admin">
+  <header class="adm-header">
+    <div class="logo" style="font-size:1.2rem;">NUVÉ ADMIN</div>
+    <button onclick="logout()" style="color:#666; font-size:0.6rem; letter-spacing:0.2em;">EXIT</button>
+  </header>
+  <div class="adm-body">
+    <nav class="adm-sidebar">
+      <button class="adm-nav-btn active" onclick="admNav('overview')">Overview</button>
+      <button class="adm-nav-btn" onclick="admNav('orders-admin')">Orders</button>
+      <button class="adm-nav-btn" onclick="admNav('products-admin')">Inventory</button>
+    </nav>
+    <main class="adm-main">
+      <div id="overview" class="adm-section">
+        <div id="statGrid" class="grid" style="grid-template-columns: repeat(4, 1fr); gap:20px;"></div>
+        <table style="width:100%; margin-top:50px;"><tbody id="recentOrdersTbl"></tbody></table>
+      </div>
+      <div id="orders-admin" class="adm-section" style="display:none">
+        <table style="width:100%;"><tbody id="adminOrdersTbl"></tbody></table>
+      </div>
+      <div id="products-admin" class="adm-section" style="display:none">
+        <div id="adminProdTbl"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="overlay" id="authOverlay">
+  <div class="modal">
+    <h3 id="modalTitle" style="font-family:'Cormorant Garamond'; font-size:2rem; margin-bottom:20px;">Access</h3>
+    <input id="aEmail" placeholder="EMAIL" style="width:100%; padding:15px; background:none; border:1px solid #333; color:#fff; margin-bottom:10px;">
+    <input id="aPass" type="password" placeholder="PASSWORD" style="width:100%; padding:15px; background:none; border:1px solid #333; color:#fff; margin-bottom:20px;">
+    <div id="nameGroup" style="display:none;"><input id="aName" placeholder="NAME" style="width:100%; padding:15px; background:none; border:1px solid #333; color:#fff; margin-bottom:10px;"></div>
+    <button onclick="submitAuth()" style="width:100%; background:var(--accent); color:#000; padding:15px; font-weight:600; letter-spacing:0.1em;">CONTINUE</button>
+    <button onclick="toggleMode()" style="margin-top:20px; font-size:0.6rem; opacity:0.5; color:#fff; width:100%;">TOGGLE JOIN/LOGIN</button>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
 
 <script>
 const API = ''; 
 let token = localStorage.getItem('nuve_token');
 let me = JSON.parse(localStorage.getItem('nuve_me') || 'null');
 let cart = JSON.parse(localStorage.getItem('nuve_cart') || '[]');
-let allProducts = [];
 
 async function api(path, opts={}) {
   const headers = { 'Content-Type':'application/json', ...(token ? { Authorization:`Bearer ${token}` } : {}) };
   const r = await fetch(`/api${path}`, { headers, ...opts, body: opts.body ? JSON.stringify(opts.body) : undefined });
-  const contentType = r.headers.get("content-type");
-  if (!contentType || !contentType.includes("application/json")) throw new Error("Connection lost.");
   const data = await r.json();
   if (!r.ok) throw new Error(data.error || r.statusText);
   return data;
@@ -174,32 +175,74 @@ function nav(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if(id === 'shop') loadProducts();
+  if(id === 'cart') renderCart();
+  if(id === 'orders') loadMyOrders();
 }
 
 async function loadProducts() {
   try {
     const data = await api('/products');
-    allProducts = data.products;
-    document.getElementById('prodGrid').innerHTML = allProducts.map(p => `
+    document.getElementById('prodGrid').innerHTML = data.products.map(p => `
       <div class="card">
         <div class="card-img">${p.emoji || '🧥'}</div>
-        <div class="card-info">
-          <div class="card-name">${p.name}</div>
-          <div class="card-price">${fmt(p.price)}</div>
-        </div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-price">$${p.price}</div>
         <button class="add-btn" onclick="addCart('${p.id}','${p.name}',${p.price},'${p.emoji}')">Add to Bag</button>
       </div>
     `).join('');
   } catch(e) { console.error(e); }
 }
 
-function fmt(n) { return '$' + parseFloat(n).toFixed(2); }
+function addCart(id, name, price, emoji) {
+  const item = cart.find(i => i.id === id);
+  if(item) item.qty++; else cart.push({id, name, price, emoji, qty:1});
+  localStorage.setItem('nuve_cart', JSON.stringify(cart));
+  document.getElementById('cartBadge').textContent = cart.length;
+  toast('Added to Archive');
+}
+
+function renderCart() {
+  const el = document.getElementById('cartItems');
+  el.innerHTML = cart.map(i => `<div style="padding:20px; border-bottom:1px solid #222;">${i.name} - Qty: ${i.qty}</div>`).join('');
+  const total = cart.reduce((a,b)=>a+(b.price*b.qty),0);
+  document.getElementById('cartSum').innerHTML = `<div style="padding:20px; color:var(--accent);">Total: $${total}</div><button class="add-btn" onclick="checkout()">Checkout</button>`;
+}
+
+async function checkout() {
+  if(!me) return openAuth();
+  await api('/orders', { method:'POST', body:{ items: cart.map(i=>({productId:i.id, quantity:i.qty})) } });
+  cart=[]; localStorage.setItem('nuve_cart','[]'); nav('orders'); toast('Order Placed');
+}
+
+async function loadMyOrders() {
+  const data = await api('/orders');
+  document.getElementById('ordersList').innerHTML = data.orders.map(o => `<div style="padding:20px; border:1px solid #222; margin-bottom:10px;">Order #${o.id.slice(0,8)} - ${o.status}</div>`).join('');
+}
+
+function logout() { localStorage.clear(); location.reload(); }
+function openAuth() { document.getElementById('authOverlay').classList.add('open'); }
+function closeAuth() { document.getElementById('authOverlay').classList.remove('open'); }
+function toggleMode() { authMode = (authMode === 'signin' ? 'register' : 'signin'); document.getElementById('nameGroup').style.display = (authMode === 'register' ? 'block' : 'none'); }
+
+async function submitAuth() {
+  const email = document.getElementById('aEmail').value;
+  const password = document.getElementById('aPass').value;
+  const name = document.getElementById('aName').value;
+  const data = await api(`/auth/${authMode}`, { method:'POST', body: { email, password, name } });
+  localStorage.setItem('nuve_token', data.token);
+  localStorage.setItem('nuve_me', JSON.stringify(data.user));
+  location.reload();
+}
+
+function toast(msg) { const n = document.getElementById('notif'); n.textContent = msg; n.classList.add('show'); setTimeout(() => n.classList.remove('show'), 2000); }
 
 // INIT
+if(me) document.getElementById('userChip').textContent = me.name.toUpperCase();
 if(me && me.role === 'admin') {
-    document.getElementById('site').style.display = 'none';
+  document.getElementById('site').style.display = 'none';
+  document.getElementById('admin').classList.add('active');
 } else {
-    loadProducts();
+  loadProducts();
 }
 </script>
 </body>
