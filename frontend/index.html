@@ -24,178 +24,412 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink-primary); overflow-x: hidden; line-height: 1.7; }
+body { 
+  font-family: 'Inter', sans-serif; 
+  background: var(--bg); 
+  color: var(--ink-primary); 
+  overflow-x: hidden; 
+  line-height: 1.7;
+}
 
 /* HEADER */
 .header-container {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  padding: 1.5rem 5%;
-  backdrop-filter: blur(25px);
-  background: rgba(10, 10, 10, 0.95);
-  border-bottom: 1px solid var(--border-glass);
+  position: fixed; top: 0; width: 100%; z-index: 1000; 
+  padding: 1.5rem 5%; backdrop-filter: blur(25px);
+  background: rgba(10, 10, 10, 0.95); border-bottom: 1px solid var(--border-glass);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-
-header {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 70px;
+header { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+.logo { 
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem, 4vw, 2.2rem); 
+  font-weight: 300; letter-spacing: 0.1em; background: var(--gradient-gold); 
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  cursor: pointer; transition: all 0.3s ease;
 }
-
-.logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.5rem, 4vw, 2.2rem);
-  font-weight: 300;
-  letter-spacing: 0.1em;
-  background: var(--gradient-gold);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
 .logo:hover { transform: scale(1.05); }
-
 .nav-links { display: flex; gap: 2.5rem; align-items: center; }
-
-.nav-btn {
-  font-size: 0.85rem;
-  font-weight: 400;
-  color: var(--ink-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border: none;
-  background: none;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.3s ease;
-  padding: 0.5rem 0;
+.nav-btn { 
+  font-size: 0.85rem; font-weight: 400; color: var(--ink-secondary); text-transform: uppercase; 
+  letter-spacing: 0.08em; border: none; background: none; cursor: pointer; position: relative;
+  transition: all 0.3s ease; padding: 0.5rem 0;
 }
-
 .nav-btn::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--gradient-gold);
-  transition: width 0.3s ease;
+  content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; 
+  background: var(--gradient-gold); transition: width 0.3s ease;
 }
-
-.nav-btn:hover::after,
-.nav-btn.active::after { width: 100%; }
-
-.nav-btn:hover,
-.nav-btn.active { color: var(--accent-gold); }
-
+.nav-btn:hover::after, .nav-btn.active::after { width: 100%; }
+.nav-btn:hover, .nav-btn.active { color: var(--accent-gold); }
 .header-actions { display: flex; align-items: center; gap: 1.5rem; }
-
-.user-chip {
-  font-size: 0.75rem;
-  color: var(--ink-secondary);
-  letter-spacing: 0.05em;
-  font-weight: 400;
+.user-chip { font-size: 0.75rem; color: var(--ink-secondary); letter-spacing: 0.05em; font-weight: 400; }
+.cart-btn { 
+  position: relative; display: flex; align-items: center; gap: 0.5rem; 
+  color: var(--ink-secondary); background: none; border: none; font-size: 0.85rem; 
+  cursor: pointer; transition: all 0.3s ease;
+}
+.cart-badge { background: var(--accent-gold); color: var(--bg); border-radius: 50%; width: 20px; height: 20px; 
+  display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 500;
 }
 
-.cart-btn {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--ink-secondary);
-  background: none;
-  border: none;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* HERO */
+.hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+  text-align: center; padding: 0 5%; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(212, 191, 55, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(212, 191, 55, 0.08) 0%, transparent 50%);
+  pointer-events: none; z-index: 1;
+}
+.hero-content { max-width: 900px; position: relative; z-index: 2; }
+.hero h1 { 
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(4.5rem, 12vw, 11rem); 
+  font-weight: 300; line-height: 0.85; letter-spacing: -0.03em; margin-bottom: 2rem;
+  opacity: 0; transform: translateY(60px); animation: heroReveal 1.8s 0.3s ease forwards;
+}
+.hero h1 em { 
+  background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+  background-clip: text; position: relative;
+}
+.hero-p { 
+  font-size: 1.2rem; color: var(--ink-secondary); max-width: 500px; margin: 0 auto 4rem; 
+  letter-spacing: 0.02em; opacity: 0; animation: heroReveal 1.8s 0.8s ease forwards; line-height: 1.8;
+}
+.hero-cta { 
+  display: inline-flex; align-items: center; gap: 1rem; padding: 1.2rem 3rem; 
+  background: var(--bg-glass-alt); backdrop-filter: blur(20px); border: 1px solid var(--border-glass);
+  color: var(--ink-primary); font-size: 0.9rem; font-weight: 400; text-transform: uppercase; 
+  letter-spacing: 0.1em; cursor: pointer; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative; overflow: hidden; opacity: 0; transform: translateY(40px); 
+  animation: heroReveal 1.8s 1.2s ease forwards;
+}
+.hero-cta:hover { border-color: var(--accent-gold); transform: translateY(-4px); box-shadow: var(--shadow-2); }
+
+/* SHOP */
+.shop-wrap { padding: 20vh 5%; max-width: 1600px; margin: 0 auto; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 4rem 3rem; }
+.card { 
+  background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--border-glass); 
+  border-radius: 12px; overflow: hidden; transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer; position: relative; opacity: 0; transform: translateY(60px);
+}
+.card.animate { opacity: 1; transform: translateY(0); }
+.card:hover { 
+  transform: translateY(-24px) scale(1.02); border-color: var(--accent-gold); box-shadow: var(--shadow-2);
+}
+.card-img { 
+  height: 500px; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at center, rgba(212, 191, 55, 0.05) 0%, transparent 70%);
+}
+.card-img i { 
+  font-size: 7.5rem; transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--ink-primary);
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.05));
+}
+.card:hover .card-img i { 
+  transform: scale(1.1) rotate(-3deg); 
+  color: var(--accent-gold);
+  filter: drop-shadow(0 0 40px rgba(212, 191, 55, 0.4));
+}
+.card-name { 
+  font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 300; 
+  margin: 2rem 2.5rem 0.5rem; letter-spacing: -0.015em;
+}
+.card-price { 
+  font-size: 1.2rem; font-weight: 500; color: var(--accent-gold); 
+  margin: 0 2.5rem 2rem; letter-spacing: 0.02em;
+}
+.card-btn { 
+  margin: 0 2.5rem 2.5rem; padding: 1.1rem 2.5rem; background: transparent; 
+  border: 1px solid var(--border-glass); color: var(--ink-primary); text-transform: uppercase; 
+  font-size: 0.8rem; letter-spacing: 0.12em; font-weight: 400; cursor: pointer; 
+  transition: all 0.4s ease; position: relative; overflow: hidden; width: calc(100% - 5rem);
+  border-radius: 4px;
+}
+.card-btn:hover { 
+  background: var(--gradient-gold); color: var(--bg); transform: translateY(-3px); 
+  box-shadow: 0 12px 40px rgba(212, 191, 55, 0.3);
 }
 
-.cart-badge {
-  background: var(--accent-gold);
-  color: var(--bg);
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.7rem;
-  font-weight: 500;
+/* CART & ORDERS */
+.cart-wrap, .orders-wrap { padding: 20vh 5%; max-width: 1000px; margin: 0 auto; }
+.page-title { 
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 10vw, 6rem); 
+  text-align: center; margin-bottom: 4rem; font-weight: 300;
 }
+.cart-item { 
+  display: flex; justify-content: space-between; align-items: center; padding: 2.5rem; 
+  background: var(--bg-glass-alt); border: 1px solid var(--border-glass); border-radius: 12px; 
+  margin-bottom: 1.5rem; transition: all 0.3s ease;
+}
+.cart-item:hover { border-color: var(--accent-gold); transform: translateX(12px); }
+.cart-item-icon { font-size: 2.2rem; color: var(--accent-gold); margin-right: 1.5rem; width: 50px; text-align: center; }
 
-/* MAIN CONTENT AND OTHER CSS (keeping your original CSS intact) */
-/* Example: Products grid, modals, forms, notifications, admin panel, etc. */
+/* NOTIFICATION */
+.notif { 
+  position: fixed; bottom: 3rem; right: 3rem; background: var(--gradient-gold); color: var(--bg); 
+  padding: 1.3rem 2.2rem; font-size: 0.9rem; font-weight: 500; text-transform: uppercase; 
+  letter-spacing: 0.08em; border-radius: 50px; transform: translateX(400px); 
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); z-index: 3000; box-shadow: var(--shadow-2);
+}
+.notif.show { transform: translateX(0); }
+
+@keyframes heroReveal { to { opacity: 1; transform: translateY(0); } }
+.page { display: none; }
+.page.active { display: block; animation: fadeInUp 0.8s ease; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 768px) {
+  .header-container { padding: 1rem 4%; }
+  .grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .hero h1 { font-size: 4rem; }
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header-container">
-  <header>
-    <div class="logo">NUVÉ</div>
-    <nav class="nav-links">
-      <button class="nav-btn active">Home</button>
-      <button class="nav-btn">Shop</button>
-      <button class="nav-btn">About</button>
-      <button class="nav-btn">Contact</button>
-    </nav>
-    <div class="header-actions">
-      <span class="user-chip">Guest</span>
-      <button class="cart-btn">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-badge">0</span>
-      </button>
+<div id="site">
+  <div class="header-container">
+    <header id="site-header">
+      <div class="logo" onclick="nav('home')">NUVÉ</div>
+      <nav class="nav-links">
+        <button class="nav-btn active" onclick="nav('home')">Archive</button>
+        <button class="nav-btn" onclick="nav('shop')">Collection</button>
+        <button class="nav-btn" onclick="nav('orders')">Orders</button>
+      </nav>
+      <div class="header-actions">
+        <span id="userChip" class="userChip"></span>
+        <button class="nav-btn" id="authBtn" onclick="openAuth()">Login</button>
+        <button class="cart-btn" onclick="nav('cart')">
+          <i class="fas fa-bag-shopping"></i> Bag [<span id="cartBadge">0</span>]
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <div id="home" class="page active">
+    <div class="hero">
+      <div class="hero-content">
+        <h1>The<br>New <em>Standard</em></h1>
+        <p class="hero-p">Architectural silhouettes for the modern observer. A modular study of structure and silence.</p>
+        <button class="hero-cta" onclick="nav('shop')">
+          Enter Archive <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
     </div>
-  </header>
+  </div>
+
+  <div id="shop" class="page">
+    <div class="shop-wrap">
+      <div class="grid" id="prodGrid"></div>
+    </div>
+  </div>
+
+  <div id="cart" class="page">
+    <div class="cart-wrap">
+      <h2 class="page-title">The Bag</h2>
+      <div id="cartItems"></div>
+      <div id="cartSum"></div>
+    </div>
+  </div>
+
+  <div id="orders" class="page">
+    <div class="orders-wrap">
+      <h2 class="page-title">Orders</h2>
+      <div id="ordersList"></div>
+    </div>
+  </div>
 </div>
 
-<!-- MAIN CONTENT -->
-<div id="main-content">
-  <!-- Products, shop, about, contact sections -->
-  <!-- Admin panel modal -->
-  <!-- Authentication modal -->
-  <!-- Notifications -->
-  <!-- Keep all your HTML structure from your original code -->
+<div class="overlay" id="authOverlay">
+  <div class="modal">
+    <h3 id="modalTitle" class="modal-title">Access</h3>
+    <input id="aEmail" class="form-input" placeholder="EMAIL">
+    <input id="aPass" type="password" class="form-input" placeholder="PASSWORD">
+    <div id="nameGroup" style="display:none;">
+      <input id="aName" class="form-input" placeholder="NAME">
+    </div>
+    <button class="modal-btn" onclick="submitAuth()">CONTINUE</button>
+    <button class="toggle-btn" onclick="toggleMode()">TOGGLE JOIN/LOGIN</button>
+  </div>
 </div>
 
-<!-- JAVASCRIPT -->
+<div class="notif" id="notif"></div>
+
 <script>
-// YOUR ORIGINAL JAVASCRIPT HERE
-// Example placeholder functions (replace with your full JS)
-function loadProducts() { /* ... */ }
-function addCart(productId) { /* ... */ }
-function renderCart() { /* ... */ }
-function checkout() { /* ... */ }
-function loadMyOrders() { /* ... */ }
-function logout() { /* ... */ }
-function auth() { /* ... */ }
-function admin() { /* ... */ }
+let token = localStorage.getItem('nuve_token');
+let me = JSON.parse(localStorage.getItem('nuve_me') || 'null');
+let cart = JSON.parse(localStorage.getItem('nuve_cart') || '[]');
+let authMode = 'signin';
 
-// Scroll effect for header
-window.addEventListener('scroll', () => {
-  const header = document.querySelector('.header-container');
-  if(window.scrollY > 50){
-    header.style.backdropFilter = 'blur(35px)';
-    header.style.background = 'rgba(10, 10, 10, 0.98)';
-  } else {
-    header.style.backdropFilter = 'blur(25px)';
-    header.style.background = 'rgba(10, 10, 10, 0.95)';
-  }
-});
+// PREMIUM CATEGORY ICONS
+const productIcons = {
+  'coat': 'fa-solid fa-vest',
+  'jacket': 'fa-solid fa-shield-halved',
+  'shirt': 'fa-solid fa-shirt',
+  'pants': 'fa-solid fa-rug',
+  'dress': 'fa-solid fa-person-dress',
+  'suit': 'fa-solid fa-user-tie',
+  'sweater': 'fa-solid fa-clapperboard',
+  'blazer': 'fa-solid fa-briefcase',
+  'trousers': 'fa-solid fa-lines-leaning',
+  'overcoat': 'fa-solid fa-layer-group',
+  'default': 'fa-solid fa-gem'
+};
 
-// Cart badge update example
-const cartBadge = document.querySelector('.cart-badge');
-function updateCartBadge(count){
-  cartBadge.textContent = count;
+async function api(path, opts={}) {
+  const headers = { 'Content-Type':'application/json', ...(token ? { Authorization:`Bearer ${token}` } : {}) };
+  // Mocking behavior for demo purposes - replace with your actual backend URL
+  const r = await fetch(`/api${path}`, { headers, ...opts, body: opts.body ? JSON.stringify(opts.body) : undefined });
+  const data = await r.json();
+  if (!r.ok) throw new Error(data.error || r.statusText);
+  return data;
 }
+
+function nav(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('#site-header .nav-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`#site-header [onclick="nav('${id}')"]`)?.classList.add('active');
+  
+  if(id === 'shop') loadProducts();
+  if(id === 'cart') renderCart();
+  if(id === 'orders') loadMyOrders();
+}
+
+async function loadProducts() {
+  try {
+    const data = await api('/products');
+    document.getElementById('prodGrid').innerHTML = data.products.map(p => {
+      const nameLower = p.name.toLowerCase();
+      let icon = productIcons.default;
+      
+      if(nameLower.includes('coat')) icon = productIcons.coat;
+      else if(nameLower.includes('jacket')) icon = productIcons.jacket;
+      else if(nameLower.includes('shirt')) icon = productIcons.shirt;
+      else if(nameLower.includes('pant') || nameLower.includes('trouser')) icon = productIcons.pants;
+      else if(nameLower.includes('suit')) icon = productIcons.suit;
+      else if(nameLower.includes('dress')) icon = productIcons.dress;
+      else if(nameLower.includes('sweater')) icon = productIcons.sweater;
+
+      return `
+        <div class="card">
+          <div class="card-img"><i class="${icon}"></i></div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-price">$${p.price}</div>
+          <button class="card-btn" onclick="addCart('${p.id}','${p.name}',${p.price},'${icon}')">Add to Bag</button>
+        </div>
+      `;
+    }).join('');
+    
+    setTimeout(() => {
+      document.querySelectorAll('.card').forEach((card, i) => {
+        setTimeout(() => card.classList.add('animate'), i * 120);
+      });
+    }, 200);
+  } catch(e) { console.error(e); }
+}
+
+function addCart(id, name, price, iconClass) {
+  const item = cart.find(i => i.id === id);
+  if(item) item.qty++; else cart.push({id, name, price, icon: iconClass, qty:1});
+  localStorage.setItem('nuve_cart', JSON.stringify(cart));
+  updateBadge();
+  toast('Added to Archive');
+}
+
+function updateBadge() {
+  document.getElementById('cartBadge').textContent = cart.reduce((a,b)=>a+b.qty,0);
+}
+
+function renderCart() {
+  const el = document.getElementById('cartItems');
+  el.innerHTML = cart.map(i => `
+    <div class="cart-item">
+      <div style="display:flex;align-items:center;gap:1.5rem;flex:1;">
+        <i class="${i.icon} cart-item-icon"></i>
+        <div style="flex:1;">
+          <div style="font-size:1.15rem;margin-bottom:0.3rem;font-weight:400;">${i.name}</div>
+          <div style="color:var(--ink-muted);font-size:0.95rem;">$${i.price} × ${i.qty}</div>
+        </div>
+      </div>
+      <div style="font-weight:500;font-size:1.1rem;">$${(i.price*i.qty).toFixed(2)}</div>
+    </div>
+  `).join('') || '<div style="text-align:center;padding:4rem;color:var(--ink-muted);font-size:1.1rem;">Your archive is empty</div>';
+  
+  const total = cart.reduce((a,b)=>a+(b.price*b.qty),0);
+  document.getElementById('cartSum').innerHTML = `
+    <div class="cart-total">
+      <div class="cart-total-price">$${total.toFixed(2)}</div>
+      <button class="checkout-btn" onclick="checkout()" style="width:100%; padding:1.5rem; background:var(--gradient-gold); border:none; color:black; font-weight:600; cursor:pointer; border-radius:8px;">Complete Order</button>
+    </div>
+  `;
+}
+
+async function checkout() {
+  if(!me) return openAuth();
+  try {
+    await api('/orders', { method:'POST', body:{ items: cart.map(i=>({productId:i.id, quantity:i.qty})) } });
+    cart=[]; localStorage.setItem('nuve_cart','[]'); updateBadge(); nav('orders'); toast('Order Placed');
+  } catch(e) { toast('Order Failed'); }
+}
+
+async function loadMyOrders() {
+  try {
+    const data = await api('/orders');
+    document.getElementById('ordersList').innerHTML = data.orders.map(o => `
+      <div style="padding:2.8rem;background:var(--bg-glass-alt);border:1px solid var(--border-glass);border-radius:12px;margin-bottom:1.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:1.1rem;margin-bottom:0.3rem;">Order #${o.id.slice(0,8)}</div>
+            <div style="color:var(--ink-muted);">Placed ${new Date(o.createdAt).toLocaleDateString()}</div>
+          </div>
+          <div style="font-size:1.2rem;font-weight:500;color:var(--accent-gold);">${o.status.toUpperCase()}</div>
+        </div>
+      </div>
+    `).join('') || '<div style="text-align:center;padding:4rem;color:var(--ink-muted);">No history found</div>';
+  } catch(e) { console.error(e); }
+}
+
+function openAuth() { document.getElementById('authOverlay').classList.add('open'); }
+function closeAuth() { document.getElementById('authOverlay').classList.remove('open'); }
+function toggleMode() { 
+  authMode = (authMode === 'signin' ? 'register' : 'signin'); 
+  document.getElementById('nameGroup').style.display = (authMode === 'register' ? 'block' : 'none');
+  document.getElementById('modalTitle').textContent = authMode === 'signin' ? 'Access' : 'Join NUVÉ';
+}
+
+async function submitAuth() {
+  try {
+    const email = document.getElementById('aEmail').value;
+    const password = document.getElementById('aPass').value;
+    const name = document.getElementById('aName').value;
+    const data = await api(`/auth/${authMode}`, { method:'POST', body: { email, password, name } });
+    localStorage.setItem('nuve_token', data.token);
+    localStorage.setItem('nuve_me', JSON.stringify(data.user));
+    location.reload();
+  } catch(e) { toast('Auth failed'); }
+}
+
+function toast(msg) { 
+  const n = document.getElementById('notif'); 
+  n.textContent = msg; 
+  n.classList.add('show'); 
+  setTimeout(() => n.classList.remove('show'), 3000); 
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateBadge();
+  if(me) {
+    document.getElementById('userChip').textContent = me.name.toUpperCase();
+    document.getElementById('authBtn').textContent = 'Account';
+  }
+  if(document.getElementById('shop').classList.contains('active')) loadProducts();
+  
+  document.getElementById('authOverlay').addEventListener('click', (e) => {
+    if (e.target.classList.contains('overlay')) closeAuth();
+  });
+});
 </script>
 </body>
 </html>
