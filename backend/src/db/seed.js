@@ -8,30 +8,30 @@ const products = [
   { name:'Canvas Tote',       description:'Sturdy natural canvas with leather handles.',       price: 68, category:'accessories', emoji:'👜', tag:null           },
   { name:'Merino Crewneck',   description:'Ultra-soft merino wool, minimal branding.',         price:220, category:'clothing',     emoji:'🧶', tag:'New'         },
   { name:'Leather Derby',     description:'Full-grain leather, Goodyear welted sole.',         price:295, category:'footwear',    emoji:'👞', tag:null           },
-  { name:'Silk Scarf',        description:'100% mulberry silk, 90×90cm square.',              price: 95, category:'accessories', emoji:'🧣', tag:'Limited'      },
+  { name:'Silk Scarf',        description:'100% mulberry silk, 90x90cm square.',              price: 95, category:'accessories', emoji:'🧣', tag:'Limited'      },
   { name:'Technical Sneaker', description:'Recycled upper, sustainable foam sole.',            price:175, category:'footwear',    emoji:'👟', tag:'New'         },
   { name:'Woven Belt',        description:'Braided leather in dark cognac.',                   price: 55, category:'accessories', emoji:'⌚', tag:null           },
   { name:'Organic Tee',       description:'GOTS-certified organic cotton, unisex cut.',        price: 65, category:'clothing',     emoji:'👕', tag:null           },
 ];
 
 async function seed() {
-  // Admin user
   const adminEmail    = process.env.ADMIN_EMAIL    || 'admin@nuve.store';
   const adminPassword = process.env.ADMIN_PASSWORD || 'Admin123!';
   const hash = await bcrypt.hash(adminPassword, 12);
+
   await db.query(
-    `INSERT INTO users (name, email, password, role) VALUES ('Admin','${ adminEmail}',$2,'admin')
-     ON CONFLICT (email) DO UPDATE SET role='admin', password=$2`,
-    [adminEmail, hash]
+    `INSERT INTO users (name, email, password, role)
+     VALUES ($1, $2, $3, 'admin')
+     ON CONFLICT (email) DO UPDATE SET role='admin', password=$3`,
+    ['Admin', adminEmail, hash]
   );
   console.log(`✅ Admin: ${adminEmail} / ${adminPassword}`);
 
-  // Products
   for (const p of products) {
     await db.query(
-      `INSERT INTO products (name,description,price,category,emoji,tag)
-       VALUES ($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING`,
-      [p.name,p.description,p.price,p.category,p.emoji,p.tag]
+      `INSERT INTO products (name, description, price, category, emoji, tag)
+       VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT DO NOTHING`,
+      [p.name, p.description, p.price, p.category, p.emoji, p.tag]
     );
   }
   console.log(`✅ ${products.length} products seeded.`);
